@@ -7,6 +7,7 @@ source config.cfg
 
 C5_VERSION="5758"
 C5_DOWNLOAD="https://www.concrete5.org/download_file/-/view/89071/"
+DB_NAME=$C5_VERSION
 
 if [ -d $VERSION ]; then
 	echo "## Delete old folder"
@@ -57,6 +58,6 @@ EOL
 echo '## Write C5 config values'
 concrete/bin/concrete5 c5:config set concrete.debug.detail debug
 concrete/bin/concrete5 c5:config set concrete.debug.display_errors true
-concrete/bin/concrete5 c5:config set concrete.misc.seen_introduction tru
+concrete/bin/concrete5 c5:config set concrete.misc.seen_introduction true
 
 echo "## Done"
