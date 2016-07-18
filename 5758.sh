@@ -15,6 +15,10 @@ fi
 
 mkdir $C5_VERSION
 
+if [ ! -d "cache" ]; then
+	mkdir cache
+fi
+
 if [ ! -f "cache/${C5_VERSION}.zip" ]; then
 	echo "## Download C5"
 	wget cache -q $C5_DOWNLOAD  -O "cache/${C5_VERSION}.zip"
