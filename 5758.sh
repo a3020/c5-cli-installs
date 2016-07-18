@@ -33,7 +33,7 @@ rm -Rf ../cache/concrete5*
 chmod +x concrete/bin/concrete5
 
 echo '## Create DB'
-mysql -u $DB_USER -p$DB_PASS -h $DB_HOST --execute="CREATE DATABASE IF NOT EXISTS ${DB_PREFIX}${DB_NAME}"
+mysql -u $DB_USER -p$DB_PASS -h $DB_HOST --execute="DROP DATABASE IF EXISTS ${DB_PREFIX}${DB_NAME}; CREATE DATABASE ${DB_PREFIX}${DB_NAME}"
 
 echo '## Install C5'
 concrete/bin/concrete5 c5:install --db-server=$DB_HOST --db-username=$DB_USER --db-password=$DB_PASS --db-database=${DB_PREFIX}${DB_NAME} \
