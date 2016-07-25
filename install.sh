@@ -1,35 +1,45 @@
 #!/usr/bin/env bash
 
-echo "## Start"
+echo "## Start installation"
 
-echo "## Read global config"
-source config.cfg
+if [ "$1" != "" ]; then
+	if [ -f "_config/$1.cfg" ]; then
+		echo "## Parse $1 config file"
+		source "_config/$1.cfg"
+	else 
+		echo "## Config file '$1.cfg' is missing"
+		exit;
+	fi
+else
+	if [ -f "_config/latest.cfg" ]; then
+		source "_config/latest.cfg"	
+	else
+		echo "## Config file 'latest.cfg' is missing"
+		exit
+	fi
+fi
 
-C5_VERSION="5754"
-C5_DOWNLOAD="https://www.concrete5.org/download_file/-/view/85488/8497/"
-DB_NAME=$C5_VERSION
-
-if [ -d $VERSION ]; then
+if [ -d $FOLDER_NAME ]; then
 	echo "## Delete old folder"
-	rm -Rf $C5_VERSION
+	rm -Rf $FOLDER_NAME
 fi
 
-mkdir $C5_VERSION
+mkdir $FOLDER_NAME
 
-if [ ! -d "cache" ]; then
-	mkdir cache
+if [ ! -d "_cache" ]; then
+	mkdir _cache
 fi
 
-if [ ! -f "cache/${C5_VERSION}.zip" ]; then
+if [ ! -f "_cache/${C5_VERSION}.zip" ]; then
 	echo "## Download C5"
-	wget cache -q $C5_DOWNLOAD  -O "cache/${C5_VERSION}.zip"
+	wget cache -q $C5_DOWNLOAD  -O "_cache/${C5_VERSION}.zip"
 fi
 
 echo "## Unzip C5"
-unzip -q -d cache "cache/$C5_VERSION.zip"
-cd $C5_VERSION
-mv ../cache/concrete5.*/* .
-rm -Rf ../cache/concrete5*
+unzip -q -d _cache "_cache/$C5_VERSION.zip"
+cd $FOLDER_NAME
+mv ../_cache/concrete5.*/* .
+rm -Rf ../_cache/concrete5*
 
 chmod +x concrete/bin/concrete5
 
