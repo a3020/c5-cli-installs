@@ -44,12 +44,20 @@ rm -Rf ../_cache/concrete5*
 chmod +x concrete/bin/concrete5
 
 echo '## Create DB'
-mysql -u $DB_USER -p$DB_PASS -h $DB_HOST --execute="DROP DATABASE IF EXISTS ${DB_PREFIX}${DB_NAME}; CREATE DATABASE ${DB_PREFIX}${DB_NAME}"
+if [ -z "$DB_PASS" ]; then 
+	mysql -u $DB_USER -h $DB_HOST --execute="DROP DATABASE IF EXISTS ${DB_PREFIX}${DB_NAME}; CREATE DATABASE ${DB_PREFIX}${DB_NAME}"
+else
+	mysql -u $DB_USER -p$DB_PASS -h $DB_HOST --execute="DROP DATABASE IF EXISTS ${DB_PREFIX}${DB_NAME}; CREATE DATABASE ${DB_PREFIX}${DB_NAME}"
+fi
 
 echo '## Install C5'
-concrete/bin/concrete5 c5:install --db-server=$DB_HOST --db-username=$DB_USER --db-password=$DB_PASS --db-database=${DB_PREFIX}${DB_NAME} \
-		--admin-email=admin@example.com --admin-password=admin \
-			--starting-point=elemental_blank
+if [ -z "$DB_PASS" ]; then 
+	concrete/bin/concrete5 c5:install --db-server=$DB_HOST --db-username=$DB_USER --db-database=${DB_PREFIX}${DB_NAME} \
+			--admin-email=admin@example.com --admin-password=admin --starting-point=elemental_blank
+else
+	concrete/bin/concrete5 c5:install --db-server=$DB_HOST --db-username=$DB_USER --db-password=$DB_PASS --db-database=${DB_PREFIX}${DB_NAME} \
+		--admin-email=admin@example.com --admin-password=admin --starting-point=elemental_blank
+fi
 
 echo '## Write .htaccess'
 cat > .htaccess <<EOL
