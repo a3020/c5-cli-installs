@@ -38,7 +38,7 @@ fi
 echo "## Unzip C5"
 unzip -q -d _cache "_cache/$C5_VERSION.zip"
 cd $FOLDER_NAME
-mv ../_cache/concrete5.*/* .
+mv ../_cache/concrete5*/* .
 rm -Rf ../_cache/concrete5*
 
 chmod +x concrete/bin/concrete5
