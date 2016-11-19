@@ -10,3 +10,5 @@ Create a .cfg file in _config and run the script like this:
 Important:
 - If a directory already exists, it will be removed!
 - If a database already exists, it will be dropped!
+
+Log into your site with admin/admin.
